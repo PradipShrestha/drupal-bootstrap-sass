@@ -1,0 +1,9 @@
+// Example of custom style. Specific to homepage
+
+@import "variable-overrides";
+
+.home-slider {
+  a {
+    color: $btn-success-color;
+  }
+}
