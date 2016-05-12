@@ -1,0 +1,22 @@
+{
+  "name": "rudra",
+  "version": "1.0.0",
+  "description": "\"Rudra theme with base theme bootstrap. It uses sass\"",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pradip Shrestha",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.12.7",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-filter": "^4.0.0",
+    "gulp-sass": "^2.3.1",
+    "gulp-shell": "^0.5.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-uglifycss": "^1.5.3"
+
+  }
+}
