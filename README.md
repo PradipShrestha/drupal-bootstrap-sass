@@ -8,3 +8,6 @@ npm install
 
 # Execute task
 gulp
+
+# Fruther Information
+Change the javascript and styles according to the file name created via gulp

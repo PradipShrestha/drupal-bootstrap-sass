@@ -1,3 +1,4 @@
+# Change the javascript and styles according to the file name created via gulp
 global-styling:
   css:
     theme:
