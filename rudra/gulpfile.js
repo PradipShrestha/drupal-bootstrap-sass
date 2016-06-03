@@ -9,53 +9,60 @@ var SINGLE_FILE_OUTPUT = false;
 // Ends configuration setting
 
 if (BUILD && DEV) {
-    throw "Cannot have different environment true at same time";
+  throw "Cannot have different environment true at same time";
 }
 
 var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
-    concat = require('gulp-concat'),
-    rename = require('gulp-rename');
+  sass = require('gulp-sass'),
+  sourcemaps = require('gulp-sourcemaps'),
+  concat = require('gulp-concat'),
+  rename = require('gulp-rename');
 
 var config = {
-    sassPath: './sass',
-    bootstrapPath: './bootstrap'
+  sassPath: './sass',
+  bootstrapPath: './bootstrap',
+  fonts: './fonts'
 };
+
+var fonts = { in : config.bootstrapPath + '/assets/fonts/bootstrap/**/*',
+  out: config.fonts + '/bootstrap/'
+}
 
 var sassOption = {
-    errLogToConsole: true,
-    // Default environment is dev
-    outputStyle: BUILD ? 'compressed' : 'expanded',
-    includePaths: [config.sassPath, './bootstrap/assets/stylesheets']
+  errLogToConsole: true,
+  // Default environment is dev
+  outputStyle: BUILD ? 'compressed' : 'expanded',
+  includePaths: [config.sassPath, './bootstrap/assets/stylesheets']
 };
 
-gulp.task('sass', function () {
-    if(SINGLE_FILE_OUTPUT){
-        return gulp.src(config.sassPath + '/**/*.scss')
-            .pipe(concat('style.css'))
-            .pipe(rename({
-                basename : 'style',
-                extname : '.min.css'
-            }))
-            .pipe(sourcemaps.init())
-            .pipe(sass(sassOption).on('error', sass.logError))
-            .pipe(sourcemaps.write('./maps'))
-            .pipe(gulp.dest('./css'))
-    }
+gulp.task('fonts', function() {
+  return gulp
+    .src(fonts.in)
+    .pipe(gulp.dest(fonts.out));
+})
+
+gulp.task('sass', ['fonts'], function() {
+  if (SINGLE_FILE_OUTPUT) {
     return gulp.src(config.sassPath + '/**/*.scss')
-        .pipe(sourcemaps.init())
-        .pipe(sass(sassOption).on('error', sass.logError))
-        .pipe(sourcemaps.write('./maps'))
-        .pipe(gulp.dest('./css'))
+      .pipe(concat('style.css'))
+      .pipe(rename({
+        basename: 'style',
+        extname: '.min.css'
+      }))
+      .pipe(sourcemaps.init())
+      .pipe(sass(sassOption).on('error', sass.logError))
+      .pipe(sourcemaps.write('./maps'))
+      .pipe(gulp.dest('./css'))
+  }
+  return gulp.src(config.sassPath + '/**/*.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass(sassOption).on('error', sass.logError))
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest('./css'))
 });
 
-gulp.task('sass:watch', function () {
-    gulp.watch(config.sassPath + '/**/*.scss', ['sass']);
+gulp.task('sass:watch', function() {
+  gulp.watch(config.sassPath + '/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['sass', 'sass:watch']);
-
-
-
-
